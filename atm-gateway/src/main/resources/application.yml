@@ -1,0 +1,26 @@
+server:
+  port: 8888  # 网关服务端口
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8080  # 你的 atm-user 服务地址
+          predicates:
+            - Path=/users/**  # 匹配路径转发
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # 开启服务注册发现，自动路由
+          lower-case-service-id: true  # 小写 serviceId 适配前端路径
+      routes:
+        - id: atm-user
+          uri: lb://atm-user  # 通过服务名路由（负载均衡）
+          predicates:
+            - Path=/users/**  # 转发规则

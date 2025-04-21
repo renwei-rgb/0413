@@ -1,0 +1,12 @@
+server:
+  port: 8888 # 设定 Config Server 的端口
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/yourusername/your-config-repository # 指定配置文件所在的 Git 仓库
+          searchPaths: '{application}' # 设置 Git 仓库中配置文件的路径
+          username: your-username # 如果需要身份验证
+          password: your-password # 如果需要身份验证

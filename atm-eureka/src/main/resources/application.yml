@@ -3,11 +3,30 @@ server:
 
 spring:
   application:
-    name: com.tss.atm.eureka-server
+    name: atm-eureka-server
+  profiles:
+    active: dev
 
 eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
   client:
     registerWithEureka: false  # 设置 Eureka Server 不会向 Eureka 注册自己
     fetchRegistry: false      # 禁止客户端从 Eureka 获取服务列表
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     enableSelfPreservation: false # 禁用自我保护模式，以便更快的服务下线
+    eviction-interval-timer-in-ms: 5000 # 清理无效节点的时间间隔，默认60秒
+    wait-time-in-ms-when-sync-empty: 0 # 获取服务实例等待时间，默认1000毫秒
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # 暴露所有监控端点
+  endpoint:
+    health:
+      show-details: always

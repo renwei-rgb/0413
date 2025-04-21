@@ -24,21 +24,20 @@
         <module>atm-gateway</module>
         <module>atm-eureka</module>
         <module>atm-user</module>
+        <module>atm-feign</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- ✅ Spring Cloud Hoxton 与 Boot 2.7 可兼容，但要验证 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-<!--                <version>${spring-cloud.version}</version>-->
-                <version>2021.0.8</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -46,20 +45,19 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>3.5.5</version> <!-- 必须指定版本 -->
+                <version>3.5.5</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.30</version> <!-- 推荐使用最新版 -->
+                <version>1.18.30</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.11</version> <!-- 或其他最新稳定版本 -->
+                <version>8.0.11</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

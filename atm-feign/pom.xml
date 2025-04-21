@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>atm-auth</artifactId>
+    <artifactId>atm-feign</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -29,26 +29,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         
-        <!-- Spring Cloud Eureka Client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        
-        <!-- Common Module -->
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>atm-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <!-- Feign Module -->
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>atm-feign</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -56,5 +36,4 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-</project>
+</project> 

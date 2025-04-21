@@ -23,5 +23,39 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
+        <!-- MyBatis Plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        
+        <!-- Common Module -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- User Module -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Check Module -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-check</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

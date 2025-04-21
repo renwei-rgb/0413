@@ -1,0 +1,13 @@
+server:
+  port: 8761  # Eureka Server 端口
+
+spring:
+  application:
+    name: com.tss.atm.eureka-server
+
+eureka:
+  client:
+    registerWithEureka: false  # 设置 Eureka Server 不会向 Eureka 注册自己
+    fetchRegistry: false      # 禁止客户端从 Eureka 获取服务列表
+  server:
+    enableSelfPreservation: false # 禁用自我保护模式，以便更快的服务下线

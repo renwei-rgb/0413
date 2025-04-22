@@ -13,7 +13,7 @@ import java.time.LocalTime;
 
 @Service
 public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attendance> implements AttendanceService {
-    
+
     private static final LocalTime WORK_START_TIME = LocalTime.of(9, 0);
     private static final LocalTime WORK_END_TIME = LocalTime.of(18, 0);
     

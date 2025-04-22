@@ -1,12 +1,11 @@
-package com.tss.atm.auth.login;
+package com.tss.atm.auth.controller;
 
 //import com.tss.atm.auth.UserService.UserService;
 import com.tss.atm.auth.mapper.UserMapper;
-import com.tss.atm.auth.login.model.User;
+import com.tss.atm.auth.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @RestController

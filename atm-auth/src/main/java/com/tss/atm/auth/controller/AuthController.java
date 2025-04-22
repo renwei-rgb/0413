@@ -1,7 +1,7 @@
-package com.tss.atm.controller;
+package com.tss.atm.auth.controller;
 
-import com.tss.atm.common.Result;
-import com.tss.atm.entity.User;
+import com.tss.atm.common.result.Result;
+import com.tss.atm.auth.entity.User;
 import com.tss.atm.feign.UserFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

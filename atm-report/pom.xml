@@ -43,19 +43,6 @@
             <artifactId>atm-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
-        <!-- User Module -->
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>atm-user</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
-        <!-- Check Module -->
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>atm-check</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
     </dependencies>
 </project>

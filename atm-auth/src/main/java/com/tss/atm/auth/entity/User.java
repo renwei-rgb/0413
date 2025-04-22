@@ -1,4 +1,4 @@
-package com.tss.atm.auth.login.model;
+package com.tss.atm.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

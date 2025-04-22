@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/atm-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/atm-config/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/atm-eureka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atm-feign/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/atm-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/atm-report/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/atm-user/src/main/java" charset="UTF-8" />

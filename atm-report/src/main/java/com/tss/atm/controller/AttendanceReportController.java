@@ -1,6 +1,6 @@
 package com.tss.atm.controller;
 
-import com.tss.atm.common.Result;
+import com.tss.atm.common.result.Result;
 import com.tss.atm.entity.AttendanceReport;
 import com.tss.atm.service.AttendanceReportService;
 import lombok.RequiredArgsConstructor;

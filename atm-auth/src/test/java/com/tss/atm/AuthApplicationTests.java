@@ -1,6 +1,6 @@
 package com.tss.atm;
 
-import com.tss.atm.common.Result;
+import com.tss.atm.common.result.Result;
 import com.tss.atm.entity.User;
 import com.tss.atm.feign.UserFeignClient;
 import org.junit.jupiter.api.Test;

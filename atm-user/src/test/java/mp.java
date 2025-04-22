@@ -1,6 +1,6 @@
 
 
-import com.tss.atm.user.entity.User;
+import com.tss.atm.common.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

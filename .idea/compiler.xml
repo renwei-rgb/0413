@@ -12,6 +12,7 @@
         <module name="atm-common" />
         <module name="atm-auth" />
         <module name="atm-user" />
+        <module name="atm-feign" />
         <module name="atm-config" />
         <module name="atm-report" />
         <module name="atm-check" />
@@ -25,6 +26,7 @@
       <module name="atm-common" options="-parameters" />
       <module name="atm-config" options="-parameters" />
       <module name="atm-eureka" options="-parameters" />
+      <module name="atm-feign" options="-parameters" />
       <module name="atm-gateway" options="-parameters" />
       <module name="atm-report" options="-parameters" />
       <module name="atm-user" options="-parameters" />

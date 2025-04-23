@@ -1,7 +1,7 @@
 package com.tss.atm.user.controller;
 
 import com.tss.atm.common.result.Result;
-import com.tss.atm.entity.Employee;
+import com.tss.atm.user.entity.Employee;
 import com.tss.atm.user.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -4,11 +4,9 @@ server:
 spring:
   application:
     name: atm-check
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/userDemo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: Renwei123
+
+  profiles:
+    active: dataSource
 
 eureka:
   client:
@@ -18,8 +16,8 @@ eureka:
     prefer-ip-address: true
 
 mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: com.tss.atm.entity
-  configuration:
-    map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl 
+

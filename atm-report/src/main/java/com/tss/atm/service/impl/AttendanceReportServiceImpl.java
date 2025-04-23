@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tss.atm.entity.Attendance;
 import com.tss.atm.entity.AttendanceReport;
-import com.tss.atm.entity.Employee;
+import com.tss.atm.user.*;
 import com.tss.atm.mapper.AttendanceReportMapper;
 import com.tss.atm.service.AttendanceReportService;
 import com.tss.atm.service.AttendanceService;
-import com.tss.atm.service.EmployeeService;
+import com.tss.atm.user.entity.Employee;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -16,6 +16,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
+import com.tss.atm.user.service.EmployeeService; // 导入其他模块的类
+
+import java.util.stream.Collectors;
 
 @Service
 public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMapper, AttendanceReport> implements AttendanceReportService {
@@ -31,7 +34,7 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
     @Override
     public AttendanceReport generateMonthlyReport(String employeeId, LocalDate reportDate) {
         YearMonth yearMonth = YearMonth.from(reportDate);
-        LocalDate startDate = yearMonth.atDay(1);
+        LocalDateTime  startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
         
         // 获取员工信息
@@ -60,7 +63,7 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
         Duration totalHours = Duration.ZERO;
         
         for (Attendance attendance : attendances) {
-            if (attendance.getCheckIn() != null && attendance.getCheckOut() != null) {
+            if (attendance.getCheckInTime() != null && attendance.getCheckOutTime() != null) {
                 actualDays++;
                 if ("late".equals(attendance.getStatus())) {
                     lateTimes++;
@@ -68,7 +71,7 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
                 if ("early".equals(attendance.getStatus())) {
                     earlyTimes++;
                 }
-                totalHours = totalHours.plus(Duration.between(attendance.getCheckIn(), attendance.getCheckOut()));
+                totalHours = totalHours.plus(Duration.between(attendance.getCheckInTime(), attendance.getCheckOutTime()));
             }
         }
         
@@ -99,9 +102,11 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
         List<Employee> employees = employeeService.getByDepartment(department);
         
         // 生成每个员工的月度报告
+
         return employees.stream()
                 .map(employee -> generateMonthlyReport(employee.getEmployeeId(), reportDate))
-                .toList();
+                .collect(Collectors.toList());
+
     }
     
     private int calculateWorkDays(LocalDate startDate, LocalDate endDate) {

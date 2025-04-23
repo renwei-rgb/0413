@@ -1,11 +1,11 @@
 server:
-  port: 8080
+  port: 8085
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/userDemo?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/attendance_manager?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: Renwei123
+    password: zaqwsx123+
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   autoconfigure:

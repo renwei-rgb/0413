@@ -16,10 +16,16 @@ public class UserController {
 
     private final UserMapper userMapper; // 直接注入 UserMapper
 
-    @GetMapping("/{id}")
-    public Result<List<com.tss.atm.common.entity.User>> getUserById(@PathVariable Long id) {
+    @GetMapping
+    public Result<List<User>> getUserById(@PathVariable Long id) {
         return Result.success(userMapper.selectList(null));
     }
+
+//
+//    @GetMapping("/{id}")
+//    public Result<List<com.tss.atm.common.entity.User>> getUserById(@PathVariable Long id) {
+//        return Result.success(userMapper.selectList(null));
+//    }
     
 //    @PostMapping
 //    public Result<Boolean> createUser(@RequestBody User user) {

@@ -2,7 +2,7 @@ package com.tss.atm.user.controller;
 
 
 import com.tss.atm.common.entity.User;
-import com.tss.atm.user.Mapper.UserMapper;
+import com.tss.atm.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

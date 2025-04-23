@@ -1,4 +1,4 @@
-package com.tss.atm.user.Mapper;
+package com.tss.atm.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tss.atm.common.entity.User;

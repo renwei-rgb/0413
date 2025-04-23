@@ -30,7 +30,7 @@
       <module name="atm-gateway" options="-parameters" />
       <module name="atm-report" options="-parameters" />
       <module name="atm-user" options="-parameters" />
-      <module name="tss-atm-web" options="-parameters" />
+      <module name="tss-atm-web" options="" />
     </option>
   </component>
 </project>

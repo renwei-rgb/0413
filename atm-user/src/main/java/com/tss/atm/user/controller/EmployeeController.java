@@ -1,17 +1,30 @@
-package com.tss.atm.controller;
+package com.tss.atm.user.controller;
 
 import com.tss.atm.common.result.Result;
 import com.tss.atm.entity.Employee;
-import com.tss.atm.service.EmployeeService;
+import com.tss.atm.user.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeController {
     
     private final EmployeeService employeeService;
+
+    // ... existing code ...
+
+    @GetMapping
+    public Result<List<Employee>> getAllEmployees() {
+        return Result.success(employeeService.list());
+    }
+
+    // ... existing code ...
     
     @PostMapping
     public Result<Boolean> createEmployee(@RequestBody Employee employee) {

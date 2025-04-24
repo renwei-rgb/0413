@@ -45,14 +45,27 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        
-        <!-- Common Module -->
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>atm-common</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         
+        <!-- Common Module -->
+<!--        <dependency>-->
+<!--            <groupId>org.example</groupId>-->
+<!--            <artifactId>atm-common</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
+        <dependency>
+        <groupId>org.example</groupId>
+        <artifactId>atm-config</artifactId>
+        <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-auth</artifactId>
+            <version>${project.version}</version>
+    </dependency>
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

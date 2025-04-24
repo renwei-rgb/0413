@@ -1,8 +1,10 @@
 package com.tss.atm.user.controller;
 
 
-import com.tss.atm.user.entity.User;
-import com.tss.atm.user.mapper.UserMapper;
+import com.tss.atm.auth.entity.User;
+import com.tss.atm.auth.mapper.UserMapper;
+import com.tss.atm.common.result.Result;
+import com.tss.atm.user.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    private  EmployeeService employeeService;
+
     // 查询所有用户
     @GetMapping
     public List<User> getAllUsers() {
@@ -25,5 +29,35 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userMapper.selectById(id);
+    }
+
+
+    // ... existing code ...
+
+    @GetMapping
+    public Result<List<User>> getAllEmployees() {
+        return Result.success(employeeService.list());
+    }
+
+    // ... existing code ...
+
+    @PostMapping
+    public Result<Boolean> createEmployee(@RequestBody User user) {
+        return Result.success(employeeService.save(user));
+    }
+
+    @PutMapping
+    public Result<Boolean> updateEmployee(@RequestBody User user) {
+        return Result.success(employeeService.updateById(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public Result<Boolean> deleteEmployee(@PathVariable Long id) {
+        return Result.success(employeeService.removeById(id));
+    }
+
+    @GetMapping("/{employeeId}")
+    public Result<User> getEmployee(@PathVariable String employeeId) {
+        return Result.success(employeeService.getByEmployeeId(employeeId));
     }
 }

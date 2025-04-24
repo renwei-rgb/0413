@@ -4,16 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tss.atm.entity.Attendance;
 import com.tss.atm.entity.AttendanceReport;
-import com.tss.atm.user.*;
 import com.tss.atm.mapper.AttendanceReportMapper;
 import com.tss.atm.service.AttendanceReportService;
 import com.tss.atm.service.AttendanceService;
-import com.tss.atm.user.entity.Employee;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
 import com.tss.atm.user.service.EmployeeService; // 导入其他模块的类
@@ -34,9 +31,12 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
     @Override
     public AttendanceReport generateMonthlyReport(String employeeId, LocalDate reportDate) {
         YearMonth yearMonth = YearMonth.from(reportDate);
-        LocalDateTime  startDate = yearMonth.atDay(1);
+        LocalDate  startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
-        
+//
+//        // 将 LocalDateTime 转换为 LocalDate
+//        LocalDate startDateAsLocalDate = startDate.toLocalDate();
+
         // 获取员工信息
         Employee employee = employeeService.getByEmployeeId(employeeId);
         if (employee == null) {

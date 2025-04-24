@@ -2,9 +2,8 @@ package com.tss.atm.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tss.atm.user.entity.Employee;
-import com.tss.atm.user.mapper.EmployeeMapper;
-import com.tss.atm.user.mapper.UserMapper;
+import com.tss.atm.auth.entity.User;
+import com.tss.atm.auth.mapper.UserMapper;
 import com.tss.atm.user.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,34 +11,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
+public class EmployeeServiceImpl extends ServiceImpl<UserMapper, User> implements EmployeeService {
 
 
 
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private UserMapper userMapper;
 
     @Override
-    public Employee getByEmployeeId(String employeeId) {
-        LambdaQueryWrapper<Employee> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Employee::getEmployeeId, employeeId);
+    public User getByEmployeeId(String employeeId) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getId, employeeId);
         return getOne(wrapper);
     }
     
     @Override
-    public boolean validateLogin(String employeeId, String password) {
-        Employee employee = getByEmployeeId(employeeId);
-        if (employee == null) {
+    public boolean validateLogin(String userId, String password) {
+        User user = getByEmployeeId(userId);
+        if (user == null) {
             return false;
         }
         // 这里应该使用加密后的密码进行比对
-        return employee.getStatus() == 1; // 在职状态
+//        return user.status() == 1; // 在职状态
+        return true;
     }
 
     @Override
-    public List<Employee> getByDepartment(String department) {
-        LambdaQueryWrapper<Employee> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Employee::getDepartment, department);
-        return employeeMapper.selectList(wrapper);
+    public List<User> getByDepartment(String department) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getDepartment, department);
+        return userMapper.selectList(wrapper);
     }
 } 

@@ -1,7 +1,7 @@
 package com.tss.atm.feign;
 
 import com.tss.atm.common.Result;
-import com.tss.atm.entity.User;
+import com.tss.atm.auth.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

@@ -17,6 +17,16 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-auth</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- Spring Cloud OpenFeign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

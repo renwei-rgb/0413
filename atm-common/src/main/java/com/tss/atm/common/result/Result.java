@@ -8,25 +8,34 @@ public class Result<T> {
     private String message;
     private T data;
     
-    private Result(Integer code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
+    private Result() {}
     
     public static <T> Result<T> success(T data) {
-        return new Result<>(200, "success", data);
+        Result<T> result = new Result<>();
+        result.setCode(200);
+        result.setMessage("success");
+        result.setData(data);
+        return result;
     }
     
-    public static <T> Result<T> success(String message, T data) {
-        return new Result<>(200, message, data);
+    public static <T> Result<T> success() {
+        Result<T> result = new Result<>();
+        result.setCode(200);
+        result.setMessage("success");
+        return result;
     }
     
     public static <T> Result<T> error(String message) {
-        return new Result<>(500, message, null);
+        Result<T> result = new Result<>();
+        result.setCode(500);
+        result.setMessage(message);
+        return result;
     }
     
     public static <T> Result<T> error(Integer code, String message) {
-        return new Result<>(code, message, null);
+        Result<T> result = new Result<>();
+        result.setCode(code);
+        result.setMessage(message);
+        return result;
     }
 } 

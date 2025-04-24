@@ -7,13 +7,14 @@ import com.tss.atm.entity.AttendanceReport;
 import com.tss.atm.mapper.AttendanceReportMapper;
 import com.tss.atm.service.AttendanceReportService;
 import com.tss.atm.service.AttendanceService;
+import com.tss.atm.auth.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
-import com.tss.atm.user.service.EmployeeService; // 导入其他模块的类
+import com.tss.atm.auth.service.UserService;
 
 import java.util.stream.Collectors;
 
@@ -21,11 +22,11 @@ import java.util.stream.Collectors;
 public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMapper, AttendanceReport> implements AttendanceReportService {
     
     private final AttendanceService attendanceService;
-    private final EmployeeService employeeService;
+    private final UserService userService;
     
-    public AttendanceReportServiceImpl(AttendanceService attendanceService, EmployeeService employeeService) {
+    public AttendanceReportServiceImpl(AttendanceService attendanceService, UserService userService) {
         this.attendanceService = attendanceService;
-        this.employeeService = employeeService;
+        this.userService = userService;
     }
     
     @Override
@@ -33,13 +34,10 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
         YearMonth yearMonth = YearMonth.from(reportDate);
         LocalDate  startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
-//
-//        // 将 LocalDateTime 转换为 LocalDate
-//        LocalDate startDateAsLocalDate = startDate.toLocalDate();
 
         // 获取员工信息
-        Employee employee = employeeService.getByEmployeeId(employeeId);
-        if (employee == null) {
+        User user = userService.getByEmployeeId(employeeId);
+        if (user == null) {
             return null;
         }
         
@@ -99,14 +97,12 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
     @Override
     public List<AttendanceReport> getDepartmentMonthlyReport(String department, LocalDate reportDate) {
         // 获取部门所有员工
-        List<Employee> employees = employeeService.getByDepartment(department);
+        List<User> users = userService.getByDepartment(department);
         
         // 生成每个员工的月度报告
-
-        return employees.stream()
-                .map(employee -> generateMonthlyReport(employee.getEmployeeId(), reportDate))
+        return users.stream()
+                .map(user -> generateMonthlyReport(user.getEmployeeId(), reportDate))
                 .collect(Collectors.toList());
-
     }
     
     private int calculateWorkDays(LocalDate startDate, LocalDate endDate) {

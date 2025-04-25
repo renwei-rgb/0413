@@ -2,7 +2,6 @@ package com.tss.atm.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tss.atm.auth.entity.User;
 import com.tss.atm.auth.mapper.UserMapper;
 import com.tss.atm.entity.Attendance;
 import com.tss.atm.mapper.AttendanceMapper;
@@ -25,14 +24,14 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
     private static final LocalTime WORK_END_TIME = LocalTime.of(18, 0);
     
     @Override
-    public boolean checkIn(String employeeId, LocalDateTime checkInTime) {
-        Attendance attendance = getTodayAttendance(employeeId);
+    public boolean checkIn(String userId, LocalDateTime checkInTime) {
+        Attendance attendance = getTodayAttendance(userId);
         if (attendance != null) {
             return false; // 已经打过卡
         }
         
         attendance = new Attendance();
-        attendance.setEmployeeId(employeeId);
+        attendance.setEmployeeId(userId);
         attendance.setCheckInTime(checkInTime);
         attendance.setStatus(checkInTime.toLocalTime().isAfter(WORK_START_TIME) ? "late" : "normal");
         
@@ -75,9 +74,9 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
     }
     
     @Override
-    public List<User> getByDepartment(String department) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getDepartment, department);
+    public List<Users> getByDepartment(String department) {
+        LambdaQueryWrapper<Users> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Users::getDepartment, department);
         return userMapper.selectList(wrapper);
     }
 } 

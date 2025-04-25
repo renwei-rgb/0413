@@ -1,26 +1,24 @@
 package com.tss.atm.auth.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@Entity
-@Table(name = "roles")
+@TableName("roles")
 @EqualsAndHashCode(exclude = "users")
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @TableId(type = IdType.AUTO)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 } 

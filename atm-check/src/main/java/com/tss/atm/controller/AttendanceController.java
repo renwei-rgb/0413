@@ -21,18 +21,18 @@ public class AttendanceController {
     private final AttendanceService attendanceService;
 
     @PostMapping("/check-in")
-    public Result<Boolean> checkIn(@RequestParam String employeeId) {
-        return Result.success(attendanceService.checkIn(employeeId, LocalDateTime.now()));
+    public Result<Boolean> checkIn(@RequestParam String userId) {
+        return Result.success(attendanceService.checkIn(userId, LocalDateTime.now()));
     }
     
     @PostMapping("/check-out")
-    public Result<Boolean> checkOut(@RequestParam String employeeId) {
-        return Result.success(attendanceService.checkOut(employeeId, LocalDateTime.now()));
+    public Result<Boolean> checkOut(@RequestParam String userId) {
+        return Result.success(attendanceService.checkOut(userId, LocalDateTime.now()));
     }
     
     @GetMapping("/today")
-    public Result<Attendance> getTodayAttendance(@RequestParam String employeeId) {
-        return Result.success(attendanceService.getTodayAttendance(employeeId));
+    public Result<Attendance> getTodayAttendance(@RequestParam String userId) {
+        return Result.success(attendanceService.getTodayAttendance(userId));
     }
 ////
 //    @Component

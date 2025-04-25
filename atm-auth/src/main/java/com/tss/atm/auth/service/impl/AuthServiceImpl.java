@@ -1,29 +1,35 @@
 package com.tss.atm.auth.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.tss.atm.auth.dto.LoginRequest;
 import com.tss.atm.auth.dto.LoginResponse;
 import com.tss.atm.auth.entity.User;
 import com.tss.atm.auth.service.AuthService;
 import com.tss.atm.auth.service.UserService;
+import com.tss.atm.common.config.UserStatus;
 import com.tss.atm.common.exception.BusinessException;
 import com.tss.atm.common.utils.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final Map<String, User> tokenStorage = new HashMap<>();
+    private final RedisTemplate<String, User> redisTemplate;
+    private static final long TOKEN_EXPIRE_TIME = 24 * 60 * 60; // 24小时过期
 
-    public AuthServiceImpl(UserService userService) {
+    public AuthServiceImpl(UserService userService, RedisTemplate<String, User> redisTemplate) {
         this.userService = userService;
         this.passwordEncoder = new BCryptPasswordEncoder();
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -39,13 +45,20 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 验证用户状态
-        if (user.getStatus() == 0) {
+        if (user.getStatus().equals(UserStatus.INACTIVE)) {
             throw new BusinessException("用户已被禁用");
         }
 
         // 生成token
         String token = JwtUtils.generateToken(user.getUsername());
-        tokenStorage.put(token, user);
+        
+        // 存储到Redis，设置24小时过期
+        redisTemplate.opsForValue().set(
+            "TOKEN:" + token, 
+            user, 
+            TOKEN_EXPIRE_TIME, 
+            TimeUnit.SECONDS
+        );
 
         // 返回登录响应
         return LoginResponse.builder()
@@ -58,42 +71,36 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
+    private <T> void checkFieldUnique(SFunction<User, T> getField, T value, String fieldName) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(getField, value);
+        if (userService.getOne(wrapper) != null) {
+            throw new BusinessException(fieldName + "已存在");
+        }
+    }
+
     @Override
     public User register(User user) {
-        // 检查用户名是否已存在
-        if (userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, user.getUsername())) != null) {
-            throw new BusinessException("用户名已存在");
-        }
-
-        // 检查工号是否已存在
-        if (userService.getOne(new LambdaQueryWrapper<User>().eq(User::getEmployeeId, user.getEmployeeId())) != null) {
-            throw new BusinessException("工号已存在");
-        }
+        // 检查唯一性
+        checkFieldUnique(User::getEmployeeId, user.getEmployeeId(), "工号");
+        checkFieldUnique(User::getEmail, user.getEmail(), "邮箱");
+        checkFieldUnique(User::getPhone, user.getPhone(), "手机号");
 
         // 加密密码
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        
-        // 设置默认值
-        if (user.getRole() == null) {
-            user.setRole("ROLE_USER");
-        }
-        if (user.getStatus() == null) {
-            user.setStatus(1);
-        }
 
-        // 保存用户
-        userService.save(user);
-        return user;
+        // 设置默认值
+        return userService.save(user) ? user : null;
     }
 
     @Override
     public void logout(String token) {
-        tokenStorage.remove(token);
+        redisTemplate.delete("TOKEN:" + token);
     }
 
     @Override
     public User getCurrentUser(String token) {
-        User user = tokenStorage.get(token);
+        User user = redisTemplate.opsForValue().get("TOKEN:" + token);
         if (user == null) {
             throw new BusinessException("用户未登录或登录已过期");
         }

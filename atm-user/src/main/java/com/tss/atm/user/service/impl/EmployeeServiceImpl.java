@@ -2,7 +2,6 @@ package com.tss.atm.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tss.atm.auth.entity.User;
 import com.tss.atm.auth.mapper.UserMapper;
 import com.tss.atm.user.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EmployeeServiceImpl extends ServiceImpl<UserMapper, User> implements EmployeeService {
+public class EmployeeServiceImpl extends ServiceImpl<UserMapper, Users> implements EmployeeService {
 
 
 
@@ -19,15 +18,15 @@ public class EmployeeServiceImpl extends ServiceImpl<UserMapper, User> implement
     private UserMapper userMapper;
 
     @Override
-    public User getByEmployeeId(String employeeId) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getId, employeeId);
+    public Users getByEmployeeId(String employeeId) {
+        LambdaQueryWrapper<Users> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Users::getId, employeeId);
         return getOne(wrapper);
     }
     
     @Override
     public boolean validateLogin(String userId, String password) {
-        User user = getByEmployeeId(userId);
+        Users user = getByEmployeeId(userId);
         if (user == null) {
             return false;
         }
@@ -37,9 +36,9 @@ public class EmployeeServiceImpl extends ServiceImpl<UserMapper, User> implement
     }
 
     @Override
-    public List<User> getByDepartment(String department) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getDepartment, department);
+    public List<Users> getByDepartment(String department) {
+        LambdaQueryWrapper<Users> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Users::getDepartment, department);
         return userMapper.selectList(wrapper);
     }
 } 

@@ -3,7 +3,7 @@
     <el-header>
       <div class="header-content">
         <h1>TSS ATM System</h1>
-        <div class="user-info" v-if="userStore.userInfo">
+        <div class="users-info" v-if="userStore.userInfo">
           <el-dropdown>
             <span class="el-dropdown-link">
               {{ userStore.userInfo.username }}
@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '../stores/users'
 import { ArrowDown, Monitor, User, Money } from '@element-plus/icons-vue'
 
 const route = useRoute()
@@ -76,7 +76,7 @@ const handleLogout = () => {
   height: 100%;
 }
 
-.user-info {
+.users-info {
   cursor: pointer;
 }
 

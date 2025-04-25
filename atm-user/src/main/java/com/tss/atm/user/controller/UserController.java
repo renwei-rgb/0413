@@ -1,7 +1,6 @@
 package com.tss.atm.user.controller;
 
 
-import com.tss.atm.auth.entity.User;
 import com.tss.atm.auth.mapper.UserMapper;
 import com.tss.atm.common.result.Result;
 import com.tss.atm.user.service.EmployeeService;
@@ -21,13 +20,13 @@ public class UserController {
 
     // 查询所有用户
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<Users> getAllUsers() {
         return userMapper.selectList(null);  // 查询全部
     }
 
     // 根据 ID 查询用户
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public Users getUserById(@PathVariable Long id) {
         return userMapper.selectById(id);
     }
 
@@ -35,19 +34,19 @@ public class UserController {
     // ... existing code ...
 
     @GetMapping
-    public Result<List<User>> getAllEmployees() {
+    public Result<List<Users>> getAllEmployees() {
         return Result.success(employeeService.list());
     }
 
     // ... existing code ...
 
     @PostMapping
-    public Result<Boolean> createEmployee(@RequestBody User user) {
+    public Result<Boolean> createEmployee(@RequestBody Users user) {
         return Result.success(employeeService.save(user));
     }
 
     @PutMapping
-    public Result<Boolean> updateEmployee(@RequestBody User user) {
+    public Result<Boolean> updateEmployee(@RequestBody Users user) {
         return Result.success(employeeService.updateById(user));
     }
 
@@ -57,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/{employeeId}")
-    public Result<User> getEmployee(@PathVariable String employeeId) {
+    public Result<Users> getEmployee(@PathVariable String employeeId) {
         return Result.success(employeeService.getByEmployeeId(employeeId));
     }
 }

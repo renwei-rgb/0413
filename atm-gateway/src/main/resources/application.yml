@@ -1,26 +1,35 @@
 server:
-  port: 8888  # 网关服务端口
+  port: 8889  # 网关服务端口
 
 spring:
+  application:
+    name: atm-gateway
   cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: http://localhost:8080  # 你的 atm-user 服务地址
-          predicates:
-            - Path=/users/**  # 匹配路径转发
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-
     gateway:
       discovery:
         locator:
           enabled: true  # 开启服务注册发现，自动路由
           lower-case-service-id: true  # 小写 serviceId 适配前端路径
       routes:
-        - id: atm-user
-          uri: lb://atm-user  # 通过服务名路由（负载均衡）
+        - id: auth-service
+          uri: lb://atm-auth  # 修改为使用服务名称
           predicates:
-            - Path=/users/**  # 转发规则
+            - Path=/auth/**
+        - id: user-service
+          uri: lb://atm-user  # 修改为使用服务名称
+          predicates:
+            - Path=/users/**
+        - id: check-service
+          uri: lb://atm-check  # 修改为使用服务名称
+          predicates:
+            - Path=/attendance/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    fetchRegistry: true
+    registerWithEureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '../stores/users'
 import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import request from '../utils/request'
@@ -67,7 +67,7 @@ const handleLogin = async () => {
       try {
         const response = await request.post('/api/auth/login', form)
         userStore.setToken(response.token)
-        userStore.setUserInfo(response.user)
+        userStore.setUserInfo(response.users)
         ElMessage.success('登录成功')
         router.push('/dashboard')
       } catch (error) {

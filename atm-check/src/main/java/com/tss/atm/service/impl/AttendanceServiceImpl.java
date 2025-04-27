@@ -2,6 +2,7 @@ package com.tss.atm.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tss.atm.auth.entity.User;
 import com.tss.atm.auth.mapper.UserMapper;
 import com.tss.atm.entity.Attendance;
 import com.tss.atm.mapper.AttendanceMapper;
@@ -74,9 +75,9 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
     }
     
     @Override
-    public List<Users> getByDepartment(String department) {
-        LambdaQueryWrapper<Users> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Users::getDepartment, department);
+    public List<User> getByDepartment(String department) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getDepartment, department);
         return userMapper.selectList(wrapper);
     }
 } 

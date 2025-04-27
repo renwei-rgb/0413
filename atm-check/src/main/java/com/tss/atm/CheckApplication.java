@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication(scanBasePackages = "com.tss.atm.config")
+@SpringBootApplication(scanBasePackages = "com.tss.atm")
 @EnableDiscoveryClient
 @EnableFeignClients
 @MapperScan("com.tss.atm.mapper")

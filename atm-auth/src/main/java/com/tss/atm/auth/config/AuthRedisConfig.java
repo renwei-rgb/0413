@@ -9,10 +9,10 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfig {
+public class AuthRedisConfig {
 
     @Bean
-    public RedisTemplate<String, User> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, User> AuthRedisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, User> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 

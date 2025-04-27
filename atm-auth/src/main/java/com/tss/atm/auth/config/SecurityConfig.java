@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/auth/**", "/redis/**").permitAll()  // 添加 /redis/** 路径
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

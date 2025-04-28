@@ -2,18 +2,28 @@ server:
   port: 8083
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: atm-auth
   datasource:
-    url: jdbc:mysql://localhost:3306/atm_db?serverTimezone=Asia/Tokyo&useSSL=false
+    url: jdbc:mysql://localhost:3306/userDemo?serverTimezone=Asia/Tokyo&useSSL=false
     username: root
-    password: rw123
+    password: Renwei123
     driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+    sql-script-encoding: UTF-8
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      encoding: UTF-8
   cloud:
     config:
       enabled: false

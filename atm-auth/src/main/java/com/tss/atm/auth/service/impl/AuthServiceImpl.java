@@ -45,20 +45,29 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 验证用户状态
-        if (user.getStatus().equals(UserStatus.INACTIVE)) {
+        if (user.getStatus() != null && user.getStatus().equals(UserStatus.INACTIVE)) {
             throw new BusinessException("用户已被禁用");
+        }
+
+        // 设置默认角色
+        if (user.getRole() == null) {
+            user.setRole("USER");
         }
 
         // 生成token
         String token = JwtUtils.generateToken(user.getUsername());
+        log.info("Generated token: {}", token);
         
         // 存储到Redis，设置24小时过期
+        String redisKey = "TOKEN:" + token;
+        log.info("Storing user in Redis with key: {}", redisKey);
         redisTemplate.opsForValue().set(
-            "TOKEN:" + token, 
+            redisKey, 
             user, 
             TOKEN_EXPIRE_TIME, 
             TimeUnit.SECONDS
         );
+        log.info("User stored in Redis successfully");
 
         // 返回登录响应
         return LoginResponse.builder()
@@ -100,7 +109,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User getCurrentUser(String token) {
-        User user = redisTemplate.opsForValue().get("TOKEN:" + token);
+        log.info("Getting current user with token: {}", token);
+        // Extract token from Bearer header
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        String redisKey = "TOKEN:" + token;
+        log.info("Looking up Redis key: {}", redisKey);
+        User user = redisTemplate.opsForValue().get(redisKey);
+        log.info("Retrieved user from Redis: {}", user);
         if (user == null) {
             throw new BusinessException("用户未登录或登录已过期");
         }

@@ -63,3 +63,36 @@ application-*.properties
 # System Files
 .DS_Store
 Thumbs.db 
+# Java related ignores
+*.class
+*.jar
+*.war
+*.ear
+target/
+build/
+
+# IDE related ignores
+.idea/
+*.iml
+.vscode/
+
+# Node.js related ignores (if applicable)
+node_modules/
+package-lock.json # Usually tracked, but if you want to ignore it
+yarn.lock
+
+# OS related ignores
+.DS_Store
+Thumbs.db
+
+# SQLite database files (if applicable)
+*.sqlite
+
+# Backup and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+\#*#
+.gitignore.save

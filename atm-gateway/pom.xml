@@ -46,6 +46,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!-- ATM Check Module -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-check</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

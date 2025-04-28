@@ -10,7 +10,8 @@
     {
       "name": "spring.datasource.driver-class-name",
       "type": "java.lang.String",
-      "sourceType": "com.tss.config.config.DatasourceProperties"
+      "sourceType": "com.tss.config.config.DatasourceProperties",
+      "defaultValue": "com.mysql.cj.jdbc.Driver"
     },
     {
       "name": "spring.datasource.password",

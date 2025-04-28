@@ -31,7 +31,7 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
     @Override
     public AttendanceReport generateMonthlyReport(String employeeId, LocalDate reportDate) {
         YearMonth yearMonth = YearMonth.from(reportDate);
-        LocalDate  startDate = yearMonth.atDay(1);
+        LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
 
         // 获取员工信息

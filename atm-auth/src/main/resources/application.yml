@@ -7,9 +7,9 @@ spring:
   application:
     name: atm-auth
   datasource:
-    url: jdbc:mysql://localhost:3306/userDemo?serverTimezone=Asia/Tokyo&useSSL=false
+    url: jdbc:mysql://localhost:3306/atm_db?serverTimezone=Asia/Tokyo&useSSL=false
     username: root
-    password: Renwei123
+    password: rw123
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: always
     sql-script-encoding: UTF-8
@@ -20,7 +20,7 @@ spring:
     show-sql: true
   sql:
     init:
-      mode: always
+      mode: never
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
       encoding: UTF-8
@@ -65,3 +65,20 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.tss.atm.auth.entity
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: FULL
+  hystrix:
+    enabled: false
+  httpclient:
+    enabled: true
+    max-connections: 200
+    max-connections-per-route: 50
+logging:
+  level:
+    com.tss.atm.auth.feign: DEBUG  # 开启 Feign 客户端的日志

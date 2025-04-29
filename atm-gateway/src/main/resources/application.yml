@@ -25,6 +25,8 @@ spring:
           uri: lb://atm-check  # 修改为使用服务名称
           predicates:
             - Path=/attendance/**
+          filters:
+            - StripPrefix=1  # 添加
 
 eureka:
   client:

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com/tss/DatasourceAutoConfiguration
+com.tss.config.config.DatasourceAutoConfiguration

@@ -3,6 +3,7 @@ package com.tss.atm.auth.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.tss.atm.common.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

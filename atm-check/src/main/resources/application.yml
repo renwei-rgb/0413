@@ -1,78 +1,57 @@
-# 应用配置
+server:
+  port: 8082
+
 spring:
   application:
-    name: atm-check  # 服务名称
-  
-  # 数据库配置（从config模块继承）
+    name: atm-check
   datasource:
-    url: jdbc:mysql://localhost:3306/atm_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Tokyo
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/atm_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Tokyo&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
     username: root
     password: rw123
-    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      maximum-pool-size: 10
+      connection-timeout: 20000
       minimum-idle: 5
+      maximum-pool-size: 12
       idle-timeout: 300000
-      max-lifetime: 1800000
-      connection-timeout: 5000
-      connection-test-query: SELECT 1
+      max-lifetime: 1200000
 
-  # MyBatis-Plus配置
-  mybatis-plus:
-    mapper-locations: classpath*:/mapper/**/*.xml
-    type-aliases-package: com.tss.atm.entity
-    configuration:
-      map-underscore-to-camel-case: true
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    global-config:
-      db-config:
-        id-type: auto
-        logic-delete-field: deleted
-        logic-delete-value: 1
-        logic-not-delete-value: 0
+  profiles:
+    active: dev
 
-# 服务发现配置
+#    active: default # 改为默认配置测试
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
 
-# 服务调用配置
-feign:
-  client:
-    config:
-      default:
-        connect-timeout: 5000
-        read-timeout: 5000
-        logger-level: full
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.tss.atm.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# 服务器配置
-server:
-  port: 8082  # 服务端口
-
-# 考勤模块特定配置
-atm:
-  check:
-    work-time:
-      start: 09:00:00  # 上班时间
-      end: 18:00:00    # 下班时间
-    late-threshold: 30  # 迟到阈值（分钟）
-    early-threshold: 30 # 早退阈值（分钟）
-    check-in:
-      allow-before: 60  # 允许提前打卡时间（分钟）
-    check-out:
-      allow-after: 60   # 允许延迟打卡时间（分钟）
-
-# 日志配置
 logging:
   level:
-    com.tss.atm: debug
-    org.springframework: info
-  file:
-    name: logs/atm-check.log
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    org.springframework.jdbc: DEBUG
+    com.zaxxer.hikari: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE

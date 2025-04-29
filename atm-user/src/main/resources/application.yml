@@ -1,5 +1,32 @@
 server:
-  port: 8080
+  port: 8081
+spring:
+  application:
+    name: atm-user  # 设置服务名称
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/atm_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Tokyo
+    username: root         # 这里必须是你的真实数据库用户名
+    password: rw123
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # Eureka server 地址
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    lease-renewal-interval-in-seconds: 5      # 心跳间隔（默认30秒）
+    lease-expiration-duration-in-seconds: 15  # 续约到期时间（默认90秒）
+    registry-fetch-interval-seconds: 5        # 拉取服务注册信息间隔（默认30秒）
+    initial-instance-info-replication-interval-seconds: 5  # 初始化实例信息复制间隔
 
   error:
     include-message: always
@@ -11,8 +38,9 @@ logging:
   level:
     com.tss.atm: DEBUG
     org.springframework.web: INFO
+    org.springframework.cloud.netflix.eureka: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.tss.atm.user.entity
-  # ⚠️ 这个应该是实体类的包，不是 Mapper 的包

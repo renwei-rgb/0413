@@ -1,41 +1,37 @@
 package com.tss.atm.common.result;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Result<T> {
     private Integer code;
     private String message;
     private T data;
     
-    private Result() {}
-    
     public static <T> Result<T> success(T data) {
-        Result<T> result = new Result<>();
-        result.setCode(200);
-        result.setMessage("success");
-        result.setData(data);
-        return result;
-    }
-    
-    public static <T> Result<T> success() {
-        Result<T> result = new Result<>();
-        result.setCode(200);
-        result.setMessage("success");
-        return result;
-    }
-    
-    public static <T> Result<T> error(String message) {
-        Result<T> result = new Result<>();
-        result.setCode(500);
-        result.setMessage(message);
-        return result;
+        return new Result<>(200, "success", data);
     }
     
     public static <T> Result<T> error(Integer code, String message) {
-        Result<T> result = new Result<>();
-        result.setCode(code);
-        result.setMessage(message);
-        return result;
+        return new Result<>(code, message, null);
+    }
+
+    // 添加一个无参的成功方法
+    public static <T> Result<T> success() {
+        return new Result<>(200, "success", null);
+    }
+
+    // 添加一个带消息的成功方法
+    public static <T> Result<T> success(String message) {
+        return new Result<>(200, message, null);
+    }
+
+    // 添加一个带消息和数据的成功方法
+    public static <T> Result<T> success(String message, T data) {
+        return new Result<>(200, message, data);
     }
 } 

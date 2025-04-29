@@ -1,19 +1,19 @@
 package com.tss.atm.config;
 
-import com.tss.config.config.DatasourceProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.sql.Connection;
 
-@Component
-public class TestPrint {
+    @Component
+    public class TestPrint{
 
-    @Autowired
-    private DatasourceProperties properties;
-
-    @PostConstruct
-    public void init() {
-        System.out.println("数据库地址: " + properties.getUrl());
-    }
+        public CommandLineRunner testConnection(DataSource dataSource) {
+            return args -> {
+                try (Connection conn = dataSource.getConnection()) {
+                    System.out.println("Connection test: " + conn.isValid(2));
+                }
+            };
+        }
     }

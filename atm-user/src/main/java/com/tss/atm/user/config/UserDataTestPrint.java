@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 @Component
-public class TestPrint {
+public class UserDataTestPrint {
     @Autowired
     private DataSource dataSource;
     @Autowired

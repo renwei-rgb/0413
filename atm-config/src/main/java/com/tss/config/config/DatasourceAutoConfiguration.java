@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 @EnableConfigurationProperties(DatasourceProperties.class)
 public class DatasourceAutoConfiguration {
 
-    @Bean // 使用不同的 Bean 名称
+    @Bean// 使用不同的 Bean 名称
     // 将该bean设置为首选bean
     @Primary
     // 创建一个数据源bean

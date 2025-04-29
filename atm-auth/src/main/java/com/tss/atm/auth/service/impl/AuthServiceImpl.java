@@ -1,126 +1,142 @@
 package com.tss.atm.auth.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.tss.atm.auth.dto.LoginRequest;
-import com.tss.atm.auth.dto.LoginResponse;
-import com.tss.atm.auth.entity.User;
+import com.tss.atm.auth.dto.LoginResult;
 import com.tss.atm.auth.service.AuthService;
-import com.tss.atm.auth.service.UserService;
-import com.tss.atm.common.config.UserStatus;
-import com.tss.atm.common.exception.BusinessException;
+import com.tss.atm.common.dto.UserRegisterDTO;
+import com.tss.atm.common.entity.User;
+import com.tss.atm.common.result.Result;
 import com.tss.atm.common.utils.JwtUtils;
-import lombok.extern.slf4j.Slf4j;
+import com.tss.atm.feign.UserFeignClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 @Service
-@Slf4j
 public class AuthServiceImpl implements AuthService {
     
-    private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserFeignClient userFeignClient;
     private final RedisTemplate<String, User> redisTemplate;
-    private static final long TOKEN_EXPIRE_TIME = 24 * 60 * 60; // 24小时过期
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserService userService, RedisTemplate<String, User> redisTemplate) {
-        this.userService = userService;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    public AuthServiceImpl(UserFeignClient userFeignClient, RedisTemplate<String, User> redisTemplate) {
+        this.userFeignClient = userFeignClient;
         this.redisTemplate = redisTemplate;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    /**
+     * 用户登录
+     */
     @Override
-    public LoginResponse login(LoginRequest request) {
-        // 查找用户
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, request.getUsername());
-        User user = userService.getOne(wrapper);
-
-        // 验证用户存在且密码正确
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new BusinessException("用户名或密码错误");
+    public LoginResult login(String username, String password) {
+        Result<User> userResult = userFeignClient.getUserByUsername(username);
+        User user = userResult.getData();
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
         }
-
-        // 验证用户状态
-        if (user.getStatus() != null && user.getStatus().equals(UserStatus.INACTIVE)) {
-            throw new BusinessException("用户已被禁用");
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("密码错误");
         }
-
-        // 设置默认角色
-        if (user.getRole() == null) {
-            user.setRole("USER");
-        }
-
-        // 生成token
         String token = JwtUtils.generateToken(user.getUsername());
-        log.info("Generated token: {}", token);
-        
-        // 存储到Redis，设置24小时过期
-        String redisKey = "TOKEN:" + token;
-        log.info("Storing user in Redis with key: {}", redisKey);
-        redisTemplate.opsForValue().set(
-            redisKey, 
-            user, 
-            TOKEN_EXPIRE_TIME, 
-            TimeUnit.SECONDS
-        );
-        log.info("User stored in Redis successfully");
+        Result<List<String>> rolesResult = userFeignClient.getUserRoles(user.getId());
+        Result<List<String>> permissionsResult = userFeignClient.getUserPermissions(user.getId());
 
-        // 返回登录响应
-        return LoginResponse.builder()
-                .token(token)
-                .username(user.getUsername())
-                .employeeId(user.getEmployeeId())
-                .role(user.getRole())
-                .name(user.getName())
-                .department(user.getDepartment())
-                .build();
+        LoginResult result = new LoginResult();
+        result.setToken(token);
+        result.setUserId(user.getId());
+        result.setUsername(user.getUsername());
+        result.setRoles(rolesResult.getData());
+        result.setPermissions(permissionsResult.getData());
+
+        // 可选：缓存用户信息
+        redisTemplate.opsForValue().set("login:user:" + user.getId(), user);
+
+        return result;
     }
 
-    private <T> void checkFieldUnique(SFunction<User, T> getField, T value, String fieldName) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(getField, value);
-        if (userService.getOne(wrapper) != null) {
-            throw new BusinessException(fieldName + "已存在");
-        }
-    }
-
+    /**
+     * 用户注册
+     * @return
+     */
     @Override
-    public User register(User user) {
-        // 检查唯一性
-        checkFieldUnique(User::getEmployeeId, user.getEmployeeId(), "工号");
-        checkFieldUnique(User::getEmail, user.getEmail(), "邮箱");
-        checkFieldUnique(User::getPhone, user.getPhone(), "手机号");
+    public Result<Boolean> register(UserRegisterDTO dto) {
+        // 1. 校验用户名是否已存在
+        Result<User> exist = userFeignClient.getUserByUsername(dto.getUsername());
+        if (exist != null&& exist.getData() != null) {
+            throw new RuntimeException("用户名已存在");
+        }
+        // 2. 密码加密
+        String encodedPwd = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(encodedPwd);
 
-        // 加密密码
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // 3. 远程调用 user 服务注册
+        return userFeignClient.registerUser(dto);
 
-        // 设置默认值
-        return userService.save(user) ? user : null;
     }
 
+    /**
+     * 校验token
+     */
+    @Override
+    public boolean validateToken(String token) {
+        return JwtUtils.validateToken(token);
+    }
+
+    /**
+     * 生成token
+     */
+    @Override
+    public String generateToken(User user) {
+        return JwtUtils.generateToken(user.getUsername());
+    }
+
+    /**
+     * 用户登出
+     */
     @Override
     public void logout(String token) {
-        redisTemplate.delete("TOKEN:" + token);
+        // 可选：将token加入黑名单，或删除Redis缓存
+        String username = JwtUtils.getUsernameFromToken(token);
+        redisTemplate.delete("login:user:" + username);
+    }
+
+    /**
+     * 获取用户权限
+     */
+    @Override
+    public List<String> getUserPermissions(Long userId) {
+        return (List<String>) userFeignClient.getUserPermissions(userId);
+    }
+
+    /**
+     * 获取用户角色
+     */
+    @Override
+    public List<String> getUserRoles(Long userId) {
+        return (List<String>) userFeignClient.getUserRoles(userId);
     }
 
     @Override
-    public User getCurrentUser(String token) {
-        log.info("Getting current user with token: {}", token);
-        // Extract token from Bearer header
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
-        String redisKey = "TOKEN:" + token;
-        log.info("Looking up Redis key: {}", redisKey);
-        User user = redisTemplate.opsForValue().get(redisKey);
-        log.info("Retrieved user from Redis: {}", user);
+    public Object getCurrentUser(String token) {
+        return null;
+    }
+
+    @Override
+    public Result<Boolean> changePassword(Long userId, String oldPassword, String newPassword) {
+        Result<User> user = userFeignClient.getUserById(userId);
+        User userData = user.getData(); // 从 Result 中获取 User 对象
+
         if (user == null) {
-            throw new BusinessException("用户未登录或登录已过期");
+            throw new RuntimeException("用户不存在");
         }
-        return user;
+        if (!passwordEncoder.matches(oldPassword, userData.getPassword())) {
+            throw new RuntimeException("原密码错误");
+        }
+        String encodedPwd = passwordEncoder.encode(newPassword);
+        return userFeignClient.updatePassword(userId, encodedPwd);
     }
 } 

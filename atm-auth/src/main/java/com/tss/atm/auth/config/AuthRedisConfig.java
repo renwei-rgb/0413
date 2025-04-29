@@ -1,7 +1,7 @@
 package com.tss.atm.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tss.atm.auth.entity.User;
+import com.tss.atm.common.entity.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

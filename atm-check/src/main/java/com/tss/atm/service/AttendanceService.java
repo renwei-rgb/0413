@@ -1,7 +1,6 @@
 package com.tss.atm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tss.atm.auth.entity.User;
 import com.tss.atm.entity.Attendance;
 
 import java.time.LocalDate;
@@ -21,6 +20,6 @@ public interface AttendanceService extends IService<Attendance> {
     // 获取指定日期范围内的考勤记录
     List<Attendance> getAttendanceByDateRange(String employeeId, LocalDate startTime, LocalDate endTime);
     
-    // 根据部门查询所有员工
-    List<User> getByDepartment(String department);
+//    // 根据部门查询所有员工
+//    List<User> getByDepartment(String department);
 } 

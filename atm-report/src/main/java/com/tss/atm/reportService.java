@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.tss.atm.report.mapper")
+@MapperScan("com.tss.atm.mapper")
 public class reportService {
     public static void main(String[] args) {
         SpringApplication.run(reportService.class, args);

@@ -1,7 +1,7 @@
-package com.tss.atm.auth.mapper;
+package com.tss.atm.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tss.atm.auth.entity.User;
+import com.tss.atm.common.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

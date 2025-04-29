@@ -2,11 +2,11 @@ package com.tss.atm.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tss.atm.auth.entity.User;
-import com.tss.atm.auth.mapper.UserMapper;
+import com.tss.atm.common.entity.User;
 import com.tss.atm.entity.Attendance;
 import com.tss.atm.mapper.AttendanceMapper;
 import com.tss.atm.service.AttendanceService;
+import com.tss.atm.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,9 @@ import java.util.List;
 
 @Service
 public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attendance> implements AttendanceService {
-
-    @Autowired
-    private UserMapper userMapper;
+//
+//    @Autowired
+//    private UserMapper userMapper;
 
     private static final LocalTime WORK_START_TIME = LocalTime.of(9, 0);
     private static final LocalTime WORK_END_TIME = LocalTime.of(18, 0);
@@ -74,10 +74,10 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
         return list(wrapper);
     }
     
-    @Override
-    public List<User> getByDepartment(String department) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getDepartment, department);
-        return userMapper.selectList(wrapper);
-    }
+//    @Override
+//    public List<User> getByDepartment(String department) {
+//        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.eq(User::getDepartment, department);
+//        return userMapper.selectList(wrapper);
+//    }
 } 

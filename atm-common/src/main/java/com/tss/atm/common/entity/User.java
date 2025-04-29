@@ -1,4 +1,4 @@
-package com.tss.atm.auth.entity;
+package com.tss.atm.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

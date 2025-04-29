@@ -1,7 +1,7 @@
-package com.tss.atm.auth.dto;
+package com.tss.atm.common.dto;
 
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

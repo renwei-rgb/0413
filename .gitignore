@@ -50,10 +50,6 @@ hs_err_pid*
 replay_pid*
 
 # Spring Boot
-application.properties
-application.yml
-application-*.yml
-application-*.properties
 
 # Database
 *.db

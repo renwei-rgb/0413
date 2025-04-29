@@ -48,6 +48,11 @@
             <artifactId>atm-feign</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
         <!-- Lombok -->
         <dependency>

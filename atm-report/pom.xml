@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>atm-users</artifactId>
+            <artifactId>atm-user</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

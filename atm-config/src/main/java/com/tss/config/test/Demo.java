@@ -1,6 +1,5 @@
 package com.tss.config.test;
 
-import com.tss.config.config.DatasourceProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,16 +10,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @Component
-public class demo {
 
-
-        @Autowired
-        private DatasourceProperties properties;
-
-        @PostConstruct
-        public void init() {
-            System.out.println("数据库地址: " + properties.getUrl());
-        }
+public class Demo {
 
 
         @Component

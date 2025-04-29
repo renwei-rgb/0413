@@ -26,11 +26,11 @@
             <artifactId>atm-config</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>atm-auth</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.example</groupId>-->
+<!--            <artifactId>atm-auth</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -46,14 +46,18 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-<!--            <groupId>com.zaxxer</groupId>-->
-<!--            <artifactId>HikariCP</artifactId>-->
-<!--        </dependency>-->
+                <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -76,6 +80,17 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-buildpack-platform</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>atm-user</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

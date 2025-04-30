@@ -78,7 +78,7 @@ public class AttendanceReportServiceImpl extends ServiceImpl<AttendanceReportMap
         report.setLateTimes(lateTimes);
         report.setEarlyTimes(earlyTimes);
         report.setAbsentDays(absentDays);
-        report.setTotalHours(totalHours);
+        report.setTotalHours(totalHours.getSeconds());
         
         // 保存报告
         save(report);

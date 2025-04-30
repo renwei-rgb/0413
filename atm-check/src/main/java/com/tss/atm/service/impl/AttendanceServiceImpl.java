@@ -2,12 +2,9 @@ package com.tss.atm.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tss.atm.common.entity.User;
 import com.tss.atm.entity.Attendance;
 import com.tss.atm.mapper.AttendanceMapper;
 import com.tss.atm.service.AttendanceService;
-import com.tss.atm.user.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -69,7 +66,7 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceMapper, Attenda
         LambdaQueryWrapper<Attendance> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Attendance::getEmployeeId, employeeId)
                .ge(Attendance::getCheckInTime, startTime)
-               .lt(Attendance::getCheckInTime, endTime)
+               .le(Attendance::getCheckInTime, endTime)
                .orderByAsc(Attendance::getCheckInTime);
         return list(wrapper);
     }

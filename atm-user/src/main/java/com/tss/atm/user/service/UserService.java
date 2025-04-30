@@ -14,7 +14,6 @@ public interface UserService extends IService<User> {
 
     // 通过用户名查用户
     User getByUsername(String username);
-    Duration
     // 通过工号查用户
     User getByEmployeeId(String employeeId);
 

@@ -26,7 +26,7 @@ spring:
           predicates:
             - Path=/attendance/**
           filters:
-            - StripPrefix=1  # 添加
+#            - StripPrefix=1  # 添加
 
 eureka:
   client:

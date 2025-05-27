@@ -2,83 +2,29 @@ server:
   port: 8083
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
   application:
     name: atm-auth
   datasource:
-    url: jdbc:mysql://localhost:3306/atm_db?serverTimezone=Asia/Tokyo&useSSL=false
-    username: root
-    password: rw123
     driver-class-name: com.mysql.cj.jdbc.Driver
-    initialization-mode: always
-    sql-script-encoding: UTF-8
+    url: jdbc:mysql://localhost:13306/atm?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
-  sql:
-    init:
-      mode: never
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
-      encoding: UTF-8
-  cloud:
-    config:
-      enabled: false
-  redis:
-    host: localhost
-    port: 6379
-    database: 0
-    timeout: 10000
-    lettuce:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 eureka:
   client:
-    serviceUrl:
+    service-url:
       defaultZone: http://localhost:8761/eureka/
-    fetchRegistry: true
-    registerWithEureka: true
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 10
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.tss.atm.auth.entity
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: FULL
-  hystrix:
-    enabled: false
-  httpclient:
-    enabled: true
-    max-connections: 200
-    max-connections-per-route: 50
-logging:
-  level:
-    com.tss.atm.auth.feign: DEBUG  # 开启 Feign 客户端的日志
+jwt:
+  secret: your-secret-key
+  expiration: 86400000  # 24小时 

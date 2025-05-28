@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <div class="login-background"></div>
     <el-card class="login-card">
       <template #header>
         <div class="card-header">
@@ -203,11 +204,11 @@ const handleRegister = async () => {
       loading.value = true
       try {
         const res = await register(registerForm)
-        if (res.code === 200) {
+        if (res.data.code === 200) {
           ElMessage.success('注册成功')
-          router.push('/login')
+          activeTab.value = 'login'
         } else {
-          ElMessage.error(res.message || '注册失败')
+          ElMessage.error(res.data.message || '注册失败')
         }
       } catch (error: any) {
         ElMessage.error(error.message || '注册失败')
@@ -218,29 +219,55 @@ const handleRegister = async () => {
   })
 }
 
+// 重置表单
 const resetForm = () => {
-  if (!registerFormRef.value) return
-  registerFormRef.value.resetFields()
+  if (registerFormRef.value) {
+    registerFormRef.value.resetFields()
+  }
 }
 </script>
 
 <style scoped>
 .login-container {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f5f7fa;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://source.unsplash.com/random/1920x1080/?nature');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  z-index: 0;
 }
 
 .login-card {
-  width: 480px;
+  width: 400px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
 }
 
 .card-header {
   display: flex;
   justify-content: center;
-  padding: 0;
+  margin-bottom: 20px;
 }
 
 .submit-button {
@@ -248,8 +275,7 @@ const resetForm = () => {
 }
 
 .register-form {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 20px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 </style>

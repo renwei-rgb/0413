@@ -3,37 +3,28 @@ package com.tss.atm.feign;
 import com.tss.atm.common.dto.UserRegisterDTO;
 import com.tss.atm.common.entity.User;
 import com.tss.atm.common.result.Result;
-import com.tss.atm.feign.config.FeignConfig;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@org.springframework.cloud.openfeign.FeignClient(
-        name = "atm-user",
-        configuration = FeignConfig.class
-)
+@FeignClient(name = "atm-user")
 public interface UserFeignClient {
-    @GetMapping("/users/{id}")
+    @GetMapping("/user/username/{username}")
+    Result<User> getUserByUsername(@PathVariable("username") String username);
+
+    @GetMapping("/user/roles/{userId}")
+    Result<List<String>> getUserRoles(@PathVariable("userId") Long userId);
+
+    @GetMapping("/user/permissions/{userId}")
+    Result<List<String>> getUserPermissions(@PathVariable("userId") Long userId);
+
+    @PostMapping("/user/register")
+    Result<Boolean> registerUser(@RequestBody UserRegisterDTO userRegisterDTO);
+
+    @GetMapping("/user/{id}")
     Result<User> getUserById(@PathVariable("id") Long id);
 
-    @GetMapping("/users/employee/{employeeId}")
-    Result<User> getByEmployeeId(@PathVariable("employeeId") String employeeId);
-
-    @PostMapping("/users/getUserName")
-    Result<User> getUserByUsername(@RequestBody String username);
-
-    @GetMapping("/users/{id}/roles")
-    Result<List<String>> getUserRoles(@PathVariable("id") Long id);
-
-    @GetMapping("/users/{id}/permissions")
-    Result<List<String>> getUserPermissions(@PathVariable("id") Long id);
-
-    @PostMapping("/users/register")
-    Result<Boolean> registerUser(@RequestBody UserRegisterDTO dto);
-
-    @PostMapping("/users/{id}/password")
-    Result<Boolean> updatePassword(@PathVariable("id") Long id, @RequestBody String encodedPwd);
+    @PutMapping("/user/{id}/password")
+    Result<Boolean> updatePassword(@PathVariable("id") Long id, @RequestParam("password") String password);
 }

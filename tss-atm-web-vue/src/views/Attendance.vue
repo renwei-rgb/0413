@@ -1,9 +1,9 @@
 <template>
   <div class="attendance-container">
     <el-card class="attendance-card">
-      <div class="card-header">
+        <div class="card-header">
         <h2>上班打卡</h2>
-      </div>
+        </div>
       <div class="card-body">
         <div class="current-time">当前时间：{{ currentTime }}</div>
         <el-button
@@ -13,7 +13,7 @@
           size="large"
         >
           {{ checkedIn ? '已打卡' : '上班打卡' }}
-        </el-button>
+          </el-button>
       </div>
     </el-card>
   </div>

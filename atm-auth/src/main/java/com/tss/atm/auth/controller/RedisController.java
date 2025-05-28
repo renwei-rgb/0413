@@ -18,7 +18,7 @@ public class RedisController {
 
     @PostMapping("/set")
     public Result<String> set(@RequestParam String key, @RequestParam String value) {
-        redisService.set(key, value);
+
         return Result.success("set ok");
     }
 

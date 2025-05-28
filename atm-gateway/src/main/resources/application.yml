@@ -1,50 +1,48 @@
 server:
-  port: 8889  # 网关服务端口
+  port: 8082
 
 spring:
   application:
     name: atm-gateway
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: true  # 开启服务注册发现，自动路由
-          lower-case-service-id: true  # 小写 serviceId 适配前端路径
+          enabled: true  # 开启从注册中心动态创建路由的功能
+          lower-case-service-id: true  # 使用小写服务名，默认是大写
       routes:
         - id: auth-service
-          uri: lb://atm-auth  # 修改为使用服务名称
+          uri: lb://atm-auth
           predicates:
             - Path=/auth/**
-        - id: user-service
-          uri: lb://atm-user  # 修改为使用服务名称
-          predicates:
-            - Path=/users/**
-        - id: check-service
-          uri: lb://atm-check  # 修改为使用服务名称
-          predicates:
-            - Path=/attendance/**
           filters:
+<<<<<<< HEAD
 #            - StripPrefix=1  # 添加
+=======
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://atm-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
+        - id: check-service
+          uri: lb://atm-check
+          predicates:
+            - Path=/check/**
+          filters:
+            - StripPrefix=1
+        - id: report-service
+          uri: lb://atm-report
+          predicates:
+            - Path=/report/**
+          filters:
+            - StripPrefix=1
+>>>>>>> a766473db144e890be6e5d824383fa312bdbeca1
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-    fetchRegistry: true
-    registerWithEureka: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka:8761/eureka/}
   instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    gateway:
-      enabled: true
-    health:
-      show-details: always
+    prefer-ip-address: true 

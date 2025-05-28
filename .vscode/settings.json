@@ -1,5 +1,11 @@
-{
+{{
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "roo-cline-chinese.vsCodeLmModelSelector": {
+
+    },
+    "roo-cline.vsCodeLmModelSelector": {
+        "apiKey": "AIzaSyCix2x960pu0QZOFU-CilUBTlew9HSo07M"
+    }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service>
+    <id>atm-eureka</id>
+    <name>ATM Eureka Service</name>
+    <description>Eureka服务发现中心</description>
+    <executable>java</executable>
+    <arguments>-jar atm-eureka.jar</arguments>
+    <workingdirectory>c:\renwei\tss-atm-web\atm-eureka</workingdirectory>
+    <logmode>rotate</logmode>
+    <logpath>c:\renwei\tss-atm-web\atm-eureka\logs</logpath>
+    <logname>atm-eureka.log</logname>
+    <startmode>auto</startmode>
+    <depend>MySQL</depend>
+</service>

@@ -10,21 +10,21 @@ import java.util.List;
 
 @FeignClient(name = "atm-user")
 public interface UserFeignClient {
-    @GetMapping("/user/username/{username}")
+    @GetMapping("/users/username/{username}")
     Result<User> getUserByUsername(@PathVariable("username") String username);
 
-    @GetMapping("/user/roles/{userId}")
+    @GetMapping("/users/roles/{userId}")
     Result<List<String>> getUserRoles(@PathVariable("userId") Long userId);
 
-    @GetMapping("/user/permissions/{userId}")
+    @GetMapping("/users/permissions/{userId}")
     Result<List<String>> getUserPermissions(@PathVariable("userId") Long userId);
 
-    @PostMapping("/user/register")
+    @PostMapping("/users/register")
     Result<Boolean> registerUser(@RequestBody UserRegisterDTO userRegisterDTO);
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     Result<User> getUserById(@PathVariable("id") Long id);
 
-    @PutMapping("/user/{id}/password")
+    @PutMapping("/users/{id}/password")
     Result<Boolean> updatePassword(@PathVariable("id") Long id, @RequestParam("password") String password);
 }

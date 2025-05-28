@@ -16,7 +16,6 @@
         <module>atm-config</module>
         <module>atm-feign</module>
         <module>atm-user</module>
-        <module>atm-users</module>
     </modules>
     
     <properties>
@@ -26,8 +25,8 @@
         <nacos.version>2021.0.4.0</nacos.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     
     <dependencyManagement>

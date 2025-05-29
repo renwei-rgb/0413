@@ -3,33 +3,18 @@ server:
 
 spring:
   application:
-<<<<<<< HEAD
     name: atm-eureka-server
-  security:
-    user:
-      name: eureka
-      password: password
-  security:
-    user:
-      name: eureka
-      password: password
-    basic:
-      enabled: false
-=======
-    name: atm-eureka
->>>>>>> a766473db144e890be6e5d824383fa312bdbeca1
 
 eureka:
   instance:
     hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
   client:
-<<<<<<< HEAD
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
       defaultZone: http://localhost:8761/eureka/
   server:
-    enableSelfPreservation: false
+    enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
 
 management:
@@ -41,17 +26,3 @@ management:
     health:
       show-details: always
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-=======
-    register-with-eureka: false
-    fetch-registry: false
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://${eureka.instance.hostname}:${server.port}/eureka/} 
->>>>>>> a766473db144e890be6e5d824383fa312bdbeca1

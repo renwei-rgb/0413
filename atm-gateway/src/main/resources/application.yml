@@ -15,34 +15,22 @@ spring:
           uri: lb://atm-auth
           predicates:
             - Path=/auth/**
-          filters:
-<<<<<<< HEAD
-#            - StripPrefix=1  # 添加
-=======
-            - StripPrefix=1
         - id: user-service
           uri: lb://atm-user
           predicates:
             - Path=/user/**
-          filters:
-            - StripPrefix=1
         - id: check-service
           uri: lb://atm-check
           predicates:
             - Path=/check/**
-          filters:
-            - StripPrefix=1
         - id: report-service
           uri: lb://atm-report
           predicates:
             - Path=/report/**
-          filters:
-            - StripPrefix=1
->>>>>>> a766473db144e890be6e5d824383fa312bdbeca1
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka:8761/eureka/}
+      defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true 

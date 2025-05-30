@@ -53,7 +53,7 @@ replay_pid*
 
 # Database
 *.db
-*.sql
+!**/sqlinit/*.sql
 *.sqlite
 
 # System Files

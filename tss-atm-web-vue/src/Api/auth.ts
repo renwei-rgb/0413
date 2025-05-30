@@ -1,35 +1,4 @@
-import axios from 'axios'
 import request from '../utils/request'
-
-const api = axios.create({
-    baseURL: '/api'
-})
-
-// 请求拦截器
-api.interceptors.request.use(
-    config => {
-        const token = localStorage.getItem('token')
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`
-        }
-        return config
-    },
-    error => {
-        return Promise.reject(error)
-    }
-)
-
-// 响应拦截器
-api.interceptors.response.use(
-    response => response,
-    error => {
-        if (error.response?.status === 401) {
-            localStorage.removeItem('token')
-            window.location.href = '/login'
-        }
-        return Promise.reject(error)
-    }
-)
 
 export interface LoginData {
     username: string
@@ -48,7 +17,10 @@ export interface RegisterData {
 }
 
 export const login = (data: LoginData) => {
-    return api.post('/auth/login', data)
+    return request({
+        url: `/auth/login?username=${encodeURIComponent(data.username)}&password=${encodeURIComponent(data.password)}`,
+        method: 'post'
+    })
 }
 
 export const register = (data: RegisterData) => {
@@ -59,4 +31,9 @@ export const register = (data: RegisterData) => {
     })
 }
 
-export default api
+export const logout = () => {
+    return request({
+        url: '/auth/logout',
+        method: 'post'
+    })
+}

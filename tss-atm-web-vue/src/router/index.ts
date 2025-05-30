@@ -1,22 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import type { RouteRecordRaw } from 'vue-router'
 
-const routes = [
+const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        name: 'Portal',
-        component: () => import('../views/Portal.vue')
+        redirect: '/login'
     },
     {
         path: '/login',
         name: 'Login',
-        component: () => import('../views/Login.vue')
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: () => import('../views/Register.vue')
+        component: () => import('@/views/login.vue')
     },
     {
         path: '/home',
@@ -27,7 +20,7 @@ const routes = [
             {
                 path: 'dashboard',
                 name: 'Dashboard',
-                component: () => import('../views/dashboard/index.vue'),
+                component: () => import('../views/home/Dashboard.vue'),
                 meta: { requiresAuth: true }
             },
             {
@@ -43,12 +36,9 @@ const routes = [
         ]
     },
     {
-        path: '/dashboard',
-        redirect: '/home/dashboard'
-    },
-    {
-        path: '/',
-        redirect: '/home/dashboard'
+        path: '/register',
+        name: 'Register',
+        component: () => import('../views/Register.vue')
     }
 ]
 
@@ -56,8 +46,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
-
-export default router
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
@@ -69,22 +57,4 @@ router.beforeEach((to, from, next) => {
     }
 })
 
-const getUserId = () => localStorage.getItem('userId')
-
-// 打卡时
-const handleCheckIn = async () => {
-  try {
-    checkInLoading.value = true
-    // TODO: 调用打卡API
-    ElMessage.success('上班打卡成功')
-    checkInDisabled.value = false
-    checkOutDisabled.value = false
-    todayRecord.value.checkIn = currentTime.value
-  } catch (error: any) {
-    ElMessage.error(error.message || '打卡失败')
-  } finally {
-    checkInLoading.value = false
-  }
-}
-
-router.push('/home/dashboard')
+export default router

@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
             return LoginResult.fail("用户名或密码错误");
         }
 
-        if (!"active".equals(user.getStatus())) {
+        if (!"active".equalsIgnoreCase(user.getStatus())) {
             return LoginResult.fail("账号已被禁用");
         }
 
